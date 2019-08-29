@@ -43,7 +43,7 @@ class ScoreOptionsWrapper extends Component {
             Object.entries(this.state.menuOptions).sort().map( ([k, v]) => {
               let vInput;
               if(typeof(v) === "boolean") { 
-                vInput = <input type="checkbox" name={k} checked={v} onChange={this.updateMenuOption} />
+                vInput = <input type="checkbox" name={k} checked={v} onClick={this.updateMenuOption} />
               } else { 
                 vInput = <input type="text" name={k} value={v} onChange={this.updateMenuOption} />
               }
@@ -63,11 +63,12 @@ class ScoreOptionsWrapper extends Component {
   }
 
   updateMenuOption(evt) { 
-    console.log(evt.target.name, ":", evt.target.value);
+    console.log(evt.target.name, ":", evt.target.value, "-", evt.target.type);
     this.setState({
       menuOptions: {
         ...this.state.menuOptions,
-        [evt.target.name]: evt.target.value
+        // force textboxes to use booleans (instead of "" or "on")
+        [evt.target.name]: evt.target.type === "checkbox" ? !this.state.menuOptions[evt.target.name] : evt.target.value
       }
     })
   }
