@@ -126,3 +126,25 @@ body {
 .hidden {
   visibility:hidden;
 }
+
+.scoreOptions {
+  position:relative;
+  width:500px;
+  height:250px;
+  overflow-y:scroll;
+  font-size: 0.3em;
+}
+
+.scoreOptionsEntry {
+  margin-bottom:2px;
+  margin-top:2px;
+  background-color: #eeeeee;
+}
+.scoreOptionsKey {
+  float:left;
+  min-width:50%;
+}
+.scoreOptionsValue {
+  min-width:50%;
+}
+

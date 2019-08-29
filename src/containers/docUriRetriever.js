@@ -2,19 +2,10 @@ import React, { Component } from 'react';
 import { connect } from 'react-redux' ;
 import { bindActionCreators } from 'redux';
 import { traverse, registerTraversal, setTraversalObjectives, checkTraversalObjectives, scoreNextPageStatic, scorePrevPageStatic, fetchScore } from 'meld-clients-core/src/actions/index';
-import Score from 'meld-clients-core/src/containers/score';
+import ScoreOptionsWrapper from './scoreOptionsWrapper';
 
 
 const MEIMIMETYPE = "application/x-mei";
-
-const vrvOptions = {
-	scale: 45,
-  adjustPageHeight: 1,
-	pageHeight: 1080,
-	pageWidth: 2200,
-	noFooter: 1,
-	unit: 6
-};
 
 class DocUriRetriever extends Component {
   constructor(props) { 
@@ -31,19 +22,19 @@ class DocUriRetriever extends Component {
 
 
   render() { 
+    console.log("MEI URI: ", this.state.meiUri)
     return(
       <div>
         Enter CE URI
         <div>
           <input value={this.state.docUri} onChange={ (evt) => this.setState({docUri: evt.target.value, meiUri:""}) } />
-          <button onClick={this.retrieveCEUri}>Retrieve from CE</button>
+          <button onClick={this.retrieveCEUri}>Retrieve</button>
         </div>
         <div>
-          Result: <pre>{ JSON.stringify(this.props.graph.outcomes[0], null, 2) }</pre>
         </div>
         { this.state.meiUri
-          ? <Score uri={ this.state.meiUri } key = { this.state.meiUri } options = { vrvOptions } />
-          : <div>No MEI source currently specified.</div>
+          ? <div><ScoreOptionsWrapper uri={ this.state.meiUri } />  /></div>
+          : <div>Enter a CE DigitalDocument URI corresponding to an MEI file.</div>
         }
 
       </div>
@@ -101,7 +92,7 @@ class DocUriRetriever extends Component {
   }
   retrieveCEUri() { 
     this.props.registerTraversal(this.state.docUri, { 
-      numHops:1,
+      numHops:0,
       objectPrefixWhitelist:["http://localhost:4000"]
     })
     console.log("Retrieving ", this.state.docUri);
