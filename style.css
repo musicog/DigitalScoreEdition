@@ -123,22 +123,29 @@ body {
   height:64px;
 }
 
-.hidden {
-  visibility:hidden;
+
+.scoreOptionsWrapper {
+  width:600px;
+  margin-left:550px;
+  position:absolute;
+  font-size: 0.3em;
+  background:#c4e5ffbb; 
+  border: 1px solid black;
+}
+.scoreOptions {
+  height:500px;
+  overflow-y:scroll;
+  z-index: 1;
 }
 
-.scoreOptions {
-  position:relative;
-  width:500px;
-  height:250px;
-  overflow-y:scroll;
-  font-size: 0.3em;
+.hidden{
+  display: none;
 }
 
 .scoreOptionsEntry {
   margin-bottom:2px;
   margin-top:2px;
-  background-color: #eeeeee;
+  background-color: #b9d9ffbb;
 }
 .scoreOptionsKey {
   float:left;

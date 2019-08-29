@@ -13,6 +13,7 @@ class DocUriRetriever extends Component {
     this.state = { 
       docUri: "",
       meiUri: "",
+      showOptions: false,
       traversalThreshold: 20
     }
     this.retrieveCEUri = this.retrieveCEUri.bind(this);
@@ -23,17 +24,21 @@ class DocUriRetriever extends Component {
 
   render() { 
     console.log("MEI URI: ", this.state.meiUri)
+    let showOptionsCheckbox = <span />;
+    if(this.state.meiUri) { 
+      showOptionsCheckbox = <span><input type="checkbox" name="showOptions" checked={this.state.showOptions} onChange={ () => this.setState({showOptions: !this.state.showOptions}) }/> Show Verovio options</span>;
+    }
     return(
       <div>
         Enter CE URI
         <div>
           <input size="60" value={this.state.docUri} onChange={ (evt) => this.setState({docUri: evt.target.value, meiUri:""}) } />
-          <button onClick={this.retrieveCEUri}>Retrieve</button>
+          <button onClick={this.retrieveCEUri}>Retrieve</button> {showOptionsCheckbox}
         </div>
         <div>
         </div>
         { this.state.meiUri
-          ? <div><ScoreOptionsWrapper uri={ this.state.meiUri } /> </div>
+          ? <div><ScoreOptionsWrapper uri={ this.state.meiUri } showOptions={ this.state.showOptions }/> </div>
           : <div>Enter a CE DigitalDocument URI corresponding to an MEI file.</div>
         }
 
