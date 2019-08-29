@@ -27,13 +27,13 @@ class DocUriRetriever extends Component {
       <div>
         Enter CE URI
         <div>
-          <input value={this.state.docUri} onChange={ (evt) => this.setState({docUri: evt.target.value, meiUri:""}) } />
+          <input size="60" value={this.state.docUri} onChange={ (evt) => this.setState({docUri: evt.target.value, meiUri:""}) } />
           <button onClick={this.retrieveCEUri}>Retrieve</button>
         </div>
         <div>
         </div>
         { this.state.meiUri
-          ? <div><ScoreOptionsWrapper uri={ this.state.meiUri } />  /></div>
+          ? <div><ScoreOptionsWrapper uri={ this.state.meiUri } /> </div>
           : <div>Enter a CE DigitalDocument URI corresponding to an MEI file.</div>
         }
 
