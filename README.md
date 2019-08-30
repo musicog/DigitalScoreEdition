@@ -6,10 +6,15 @@
 * Demonstrate layout changes to score rendering
 
 ## To install:
-`git clone https://github.com/trompamusic/DigitalScoreEdition`
-`cd DigitalScoreEdition`
-`npm install`
-`npm start`
+```
+git clone https://github.com/trompamusic/DigitalScoreEdition
+
+cd DigitalScoreEdition
+
+npm install
+
+npm start
+```
 
 
 ## To use:
