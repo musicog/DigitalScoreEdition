@@ -19,7 +19,7 @@ npm start
 
 ## To use:
 * Go to `http://localhost:8080` in your browser
-* Enter the URI of a DigitalDocument in the CE into the textbox. Click the Retrieve button.
+* Enter the URI of a DigitalDocument in the CE into the textbox. Click the `Retrieve` button.
 * Once the score loads:
   * Click and drag to select elements. Ctrl+click and drag for multiple selections.
   * Toggle selection preferences to control the type of elements selected (`measures`, `notes`)
