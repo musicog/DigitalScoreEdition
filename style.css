@@ -131,12 +131,12 @@ body {
   font-size: 0.8em;
   background:#c4e5ffbb; 
   border: 1px solid black;
+  z-index: 1;
 }
 
 .scoreOptions {
   height:500px;
   overflow-y:scroll;
-  z-index: 1;
 }
 
 .hidden{
