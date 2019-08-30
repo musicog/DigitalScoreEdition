@@ -7,7 +7,7 @@ import ScoreOptionsWrapper from './scoreOptionsWrapper';
 
 const MEIMIMETYPE = "application/x-mei";
 
-class DocUriRetriever extends Component {
+class DigitalScoreEdition extends Component {
   constructor(props) { 
     super(props);
     this.state = { 
@@ -120,4 +120,4 @@ function mapDispatchToProps(dispatch) {
     }, dispatch);
 }
 
-export default connect(mapStateToProps, mapDispatchToProps)(DocUriRetriever);
+export default connect(mapStateToProps, mapDispatchToProps)(DigitalScoreEdition);

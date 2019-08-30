@@ -125,13 +125,14 @@ body {
 
 
 .scoreOptionsWrapper {
-  width:600px;
+  width:550px;
   margin-left:550px;
   position:absolute;
-  font-size: 0.3em;
+  font-size: 0.8em;
   background:#c4e5ffbb; 
   border: 1px solid black;
 }
+
 .scoreOptions {
   height:500px;
   overflow-y:scroll;
@@ -147,10 +148,13 @@ body {
   margin-top:2px;
   background-color: #b9d9ffbb;
 }
+
 .scoreOptionsKey {
   float:left;
+  padding-top:.5em;
   min-width:50%;
 }
+
 .scoreOptionsValue {
   min-width:50%;
 }
