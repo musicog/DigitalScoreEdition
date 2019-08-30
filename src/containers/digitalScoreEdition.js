@@ -60,7 +60,6 @@ class DigitalScoreEdition extends Component {
     }
     return(
       <div>
-        Enter CE URI
         <div>
           <input size="60" value={this.state.docUri} onChange={ (evt) => this.setState({docUri: evt.target.value, meiUri:""}) } />
           <button onClick={this.retrieveCEUri}>Retrieve</button> {showOptionsCheckbox}
@@ -173,17 +172,25 @@ class DigitalScoreEdition extends Component {
   }
 
   annotate() { 
+    // generate targetted fragment URIs on the MEI file from selected SVG elements
+    const targets = this.state.selection.map( (svgElement) => { 
+      return this.state.meiUri + "#" + svgElement.getAttribute("id");
+    })
+    console.log("Targets: ", targets)
     switch(this.state.generateAnnoType) { 
       case "highlighting":
-        alert("Creating highlight annotation for " + this.state.selection.length + " selected elements");
+        alert("Creating highlight annotation for " + targets.length + " selected elements");
+        // CREATE HIGHLIGHT ANNOTATION on `targets`
         break;
       case "describing": 
-        const message = prompt("Enter description of the " + this.state.selection.length + " selected elements");
-        console.log("Got annotation description: ", message);
+        const message = prompt("Enter description of the " + targets.length + " selected elements");
+        // CREATE DESCRIBING ANNOTATION on `targets` (with a textual body containing `message`)
+        console.log("Got descriptive message: ", message)
         break;
       case "linking":
-        const linkingUri = prompt("Enter a URI that the " + this.state.selection.length + " selected elements should link to");
-        console.log("Got annotation link: ", linkingUri);
+        const linkingUri = prompt("Enter a URI that the " + targets.length + " selected elements should link to");
+        // CREATE DESCRIBING ANNOTATION on `targets` (with `linkingUri` as the body)
+        console.log("Got URI to link to: ", linkingUri)
         break;
     }
   }
