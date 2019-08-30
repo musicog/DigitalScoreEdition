@@ -168,3 +168,12 @@ body {
   fill:darkorange;
   stroke:darkorange;
 }
+
+#annotationControls {
+  position:absolute;
+  top:80px;
+  left:650px;
+}
+
+#annotationControls input {
+  margin-left: 15px;

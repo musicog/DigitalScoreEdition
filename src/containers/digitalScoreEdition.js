@@ -15,6 +15,8 @@ class DigitalScoreEdition extends Component {
       docUri: "",
       meiUri: "",
       showOptions: false,
+      selection: [],
+      generateAnnoType: "highlighting",
       traversalThreshold: 20
     }
     this.retrieveCEUri = this.retrieveCEUri.bind(this);
@@ -22,28 +24,25 @@ class DigitalScoreEdition extends Component {
     this.enableSelector = this.enableSelector.bind(this);
     this.handleSelectionPreferencesChange = this.handleSelectionPreferencesChange.bind(this);
     this.ensureArray = this.ensureArray.bind(this);
+    this.annotate = this.annotate.bind(this);
+    this.handleGenerateAnnoTypeChange = this.handleGenerateAnnoTypeChange.bind(this);
   }
   
   enableSelector() {
-    console.log("in enableSelector");
     if(!Object.keys(this.props.score.SVG).length) {
       return; // no MEI loaded yet
     }
     if (typeof this.state.selector !== "undefined") {
-      console.log("Stopping previous selector")
         this.state.selector.stop();
     }
-    console.log("Configuring new selector")
     let selector = new DragSelect({
         selectables: document.querySelectorAll(this.state.selectorString),
         area: document.getElementsByClassName('score')[0],
         selectedClass: 'selected',
         onDragStartBegin: () => {
-          console.log("Trying to begin")
             document.body.classList.add('s-noselect');
         },
         callback: (elements) => {
-            console.log("Trying to callback with ", elements)
             document.body.classList.remove('s-noselect');
             this.handleSelectionChange(elements);
         }
@@ -73,7 +72,21 @@ class DigitalScoreEdition extends Component {
             </div>
           : <div>Enter a CE DigitalDocument URI corresponding to an MEI file.</div>
         }
-
+        { this.state.selection.length 
+          ? <div id="annotationControls">
+              <button onClick={this.annotate}>Annotate</button>
+              <input type="radio" value="highlighting" 
+                checked={this.state.generateAnnoType === "highlighting"}
+                onChange={this.handleGenerateAnnoTypeChange} /> Highlight
+              <input type="radio" value="describing"
+                checked={this.state.generateAnnoType === "describing"}
+                onChange={this.handleGenerateAnnoTypeChange} /> Describe
+              <input type="radio" value="linking"
+                checked={this.state.generateAnnoType === "linking"}
+                onChange={this.handleGenerateAnnoTypeChange} /> Link
+            </div>
+          : ""
+        }
       </div>
     )
   }
@@ -138,11 +151,7 @@ class DigitalScoreEdition extends Component {
   }
   
   handleSelectionChange(selection) {
-    this.setState({selection: selection}, () => {
-        if (typeof this.props.selectionCallback === "function") {
-            this.props.selectionCallback(selection);
-        }
-    });
+    this.setState({selection: selection})
   }
 
   processTraversalOutcomes() { 
@@ -161,6 +170,27 @@ class DigitalScoreEdition extends Component {
       objectPrefixWhitelist:["http://localhost:4000"]
     })
     console.log("Retrieving ", this.state.docUri);
+  }
+
+  annotate() { 
+    switch(this.state.generateAnnoType) { 
+      case "highlighting":
+        alert("Creating highlight annotation for " + this.state.selection.length + " selected elements");
+        break;
+      case "describing": 
+        const message = prompt("Enter description of the " + this.state.selection.length + " selected elements");
+        console.log("Got annotation description: ", message);
+        break;
+      case "linking":
+        const linkingUri = prompt("Enter a URI that the " + this.state.selection.length + " selected elements should link to");
+        console.log("Got annotation link: ", linkingUri);
+        break;
+    }
+  }
+
+  handleGenerateAnnoTypeChange(evt) { 
+    console.log("Setting anno type to: ", evt.target.value);
+    this.setState({generateAnnoType: evt.target.value});
   }
 }
 
