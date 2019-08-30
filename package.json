@@ -17,7 +17,9 @@
    "dependencies": {
       "axios": "^0.15.3",
       "babel-preset-stage-1": "^6.1.18",
+      "dragselect": "^1.13.1",
       "meld-clients-core": "oerc-music/meld-clients-core",
+      "prop-types": "^15.7.2",
       "react": "^0.14.3",
       "react-dom": "^0.14.3",
       "react-player": "^1.11.0",
@@ -28,6 +30,7 @@
       "redux-thunk": "~2.2.0",
       "svg-inline-react": "~1.0.3",
       "verovio-dev": "^2.0.0-46",
+      "verovio-select": "trompamusic/verovio-select",
       "webpack": "^1.12.9",
       "webpack-dev-server": "^1.14.0"
    }

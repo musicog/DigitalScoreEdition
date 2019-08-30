@@ -3,7 +3,9 @@ import { connect } from 'react-redux' ;
 import { bindActionCreators } from 'redux';
 import { traverse, registerTraversal, setTraversalObjectives, checkTraversalObjectives, scoreNextPageStatic, scorePrevPageStatic, fetchScore } from 'meld-clients-core/src/actions/index';
 import ScoreOptionsWrapper from './scoreOptionsWrapper';
-
+import SelectionPreferences from './selectionPreferences';
+import DragSelect from "dragselect/dist/DragSelect";
+import PropTypes from 'prop-types';
 
 const MEIMIMETYPE = "application/x-mei";
 
@@ -18,7 +20,38 @@ class DigitalScoreEdition extends Component {
     }
     this.retrieveCEUri = this.retrieveCEUri.bind(this);
     this.processTraversalOutcomes = this.processTraversalOutcomes.bind(this);
+    this.enableSelector = this.enableSelector.bind(this);
+    this.handleSelectionPreferencesChange = this.handleSelectionPreferencesChange.bind(this);
     this.ensureArray = this.ensureArray.bind(this);
+  }
+  
+  enableSelector() {
+    console.log("in enableSelector");
+    if(!Object.keys(this.props.score.SVG).length) {
+      console.log("Oops")
+      return; // no MEI loaded yet
+    }
+    if (typeof this.state.selector !== "undefined") {
+      console.log("Stopping previous selector")
+        this.state.selector.stop();
+    }
+    console.log("Configuring new selector")
+    let selector = new DragSelect({
+        selectables: document.querySelectorAll("g[class='note']"),
+        area: document.getElementsByClassName('score')[0],
+        selectedClass: 'selected',
+        onDragStartBegin: () => {
+          console.log("Trying to begin")
+            document.body.classList.add('s-noselect');
+        },
+        callback: (elements) => {
+            console.log("Trying to callback with ", elements)
+            document.body.classList.remove('s-noselect');
+            this.handleSelectionChange(elements);
+        }
+    });
+    console.log("About to set selector: ", selector);
+    this.setState({selector: selector});
   }
 
 
@@ -35,10 +68,11 @@ class DigitalScoreEdition extends Component {
           <input size="60" value={this.state.docUri} onChange={ (evt) => this.setState({docUri: evt.target.value, meiUri:""}) } />
           <button onClick={this.retrieveCEUri}>Retrieve</button> {showOptionsCheckbox}
         </div>
-        <div>
-        </div>
         { this.state.meiUri
-          ? <div><ScoreOptionsWrapper uri={ this.state.meiUri } showOptions={ this.state.showOptions }/> </div>
+          ? <div>
+              <ScoreOptionsWrapper uri={ this.state.meiUri } showOptions={ this.state.showOptions }/>
+              <SelectionPreferences preferences={ {} } settingsHandler={ this.handleSelectionPreferencesChange } />
+            </div>
           : <div>Enter a CE DigitalDocument URI corresponding to an MEI file.</div>
         }
 
@@ -85,6 +119,20 @@ class DigitalScoreEdition extends Component {
     return Array.isArray(val) ? val : [val]
   }
 
+  handleSelectionPreferencesChange(settings) {
+      this.setState({settings: settings}, () => {
+          this.enableSelector();
+      });
+  }
+  
+  handleSelectionChange(selection) {
+    this.setState({selection: selection}, () => {
+        if (typeof this.props.selectionCallback === "function") {
+            this.props.selectionCallback(selection);
+        }
+    });
+  }
+
   processTraversalOutcomes() { 
     console.log("Processing outcomes: ", this.props.graph.outcomes[0]["@graph"])
     const meiDocuments = this.props.graph.outcomes[0]["@graph"].filter( (o) => { 
@@ -119,5 +167,13 @@ function mapDispatchToProps(dispatch) {
     scorePrevPageStatic
     }, dispatch);
 }
+
+DigitalScoreEdition.propTypes = {
+    scoreURL: PropTypes.string,
+    showURLInput: PropTypes.bool,
+    scoreSVG: PropTypes.string,
+    selectionCallback: PropTypes.func,
+    preferencesCallback: PropTypes.func
+};
 
 export default connect(mapStateToProps, mapDispatchToProps)(DigitalScoreEdition);

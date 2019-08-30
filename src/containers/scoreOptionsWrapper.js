@@ -23,7 +23,9 @@ class ScoreOptionsWrapper extends Component {
   }
   
   componentDidUpdate(prevProps, prevState) { 
-    if("score" in prevProps && !(this.props.uri in prevProps.score.MEI) && this.props.uri in this.props.score.MEI) { 
+    if("score" in prevProps 
+        && !(this.props.uri in prevProps.score.MEI) 
+        && this.props.uri in this.props.score.MEI) { 
       const vrvOptions = this.props.score.vrvTk.getOptions()
       console.log("Setting vrvOptions: ", vrvOptions)
       this.setState({
@@ -33,6 +35,8 @@ class ScoreOptionsWrapper extends Component {
       })
     }
   }
+
+
   render() { 
     let options = {} 
     const optionsClass = this.props.showOptions ? "scoreOptionsWrapper" : "scoreOptionsWrapper hidden";
@@ -47,7 +51,6 @@ class ScoreOptionsWrapper extends Component {
                 Object.entries(this.state.menuOptions).sort().filter( ([k, v]) => { 
                    let filterString = this.state.optionsFilter || "";
                    filterString = filterString.toLowerCase();
-                   console.log("lower csaE: ", filterString);
                    return k.toLowerCase().indexOf(filterString) >= 0;
                 }).map( ([k, v]) => {
                   let vInput;
