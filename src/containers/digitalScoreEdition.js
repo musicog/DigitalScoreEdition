@@ -5,7 +5,6 @@ import { traverse, registerTraversal, setTraversalObjectives, checkTraversalObje
 import ScoreOptionsWrapper from './scoreOptionsWrapper';
 import SelectionPreferences from './selectionPreferences';
 import DragSelect from "dragselect/dist/DragSelect";
-import PropTypes from 'prop-types';
 
 const MEIMIMETYPE = "application/x-mei";
 
@@ -28,7 +27,6 @@ class DigitalScoreEdition extends Component {
   enableSelector() {
     console.log("in enableSelector");
     if(!Object.keys(this.props.score.SVG).length) {
-      console.log("Oops")
       return; // no MEI loaded yet
     }
     if (typeof this.state.selector !== "undefined") {
@@ -37,7 +35,7 @@ class DigitalScoreEdition extends Component {
     }
     console.log("Configuring new selector")
     let selector = new DragSelect({
-        selectables: document.querySelectorAll("g[class='note']"),
+        selectables: document.querySelectorAll(this.state.selectorString),
         area: document.getElementsByClassName('score')[0],
         selectedClass: 'selected',
         onDragStartBegin: () => {
@@ -113,6 +111,14 @@ class DigitalScoreEdition extends Component {
         this.processTraversalOutcomes();
       }
     }
+
+    // 4. Enable drag selections once Verovio renders
+  if("score" in prevProps &&
+    !(Object.keys(prevProps.score.SVG).length) &&
+    Object.keys(this.props.score.SVG).length) { 
+      // horrible hack to allow SVG to be loaded into DOM first
+      setTimeout(this.enableSelector, 200)
+    }
   }
   
   ensureArray(val) { 
@@ -120,9 +126,15 @@ class DigitalScoreEdition extends Component {
   }
 
   handleSelectionPreferencesChange(settings) {
-      this.setState({settings: settings}, () => {
-          this.enableSelector();
-      });
+    let selectorString;
+    if(settings["selectMeasures"]) { 
+      selectorString = "g[class='measure']";
+    } else if(settings["selectNotes"]) { 
+      selectorString = "g[class='note']";
+    }
+    this.setState({ selectorString }, () => {
+        this.enableSelector();
+    });
   }
   
   handleSelectionChange(selection) {
@@ -167,13 +179,5 @@ function mapDispatchToProps(dispatch) {
     scorePrevPageStatic
     }, dispatch);
 }
-
-DigitalScoreEdition.propTypes = {
-    scoreURL: PropTypes.string,
-    showURLInput: PropTypes.bool,
-    scoreSVG: PropTypes.string,
-    selectionCallback: PropTypes.func,
-    preferencesCallback: PropTypes.func
-};
 
 export default connect(mapStateToProps, mapDispatchToProps)(DigitalScoreEdition);
