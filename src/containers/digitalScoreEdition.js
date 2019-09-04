@@ -5,6 +5,7 @@ import { traverse, registerTraversal, setTraversalObjectives, checkTraversalObje
 import ScoreOptionsWrapper from './scoreOptionsWrapper';
 import SelectionPreferences from './selectionPreferences';
 import DragSelect from "dragselect/dist/DragSelect";
+import * as client from "./Submit"
 
 const MEIMIMETYPE = "application/x-mei";
 
@@ -175,22 +176,22 @@ class DigitalScoreEdition extends Component {
     // generate targetted fragment URIs on the MEI file from selected SVG elements
     const targets = this.state.selection.map( (svgElement) => { 
       return this.state.meiUri + "#" + svgElement.getAttribute("id");
-    })
-    console.log("Targets: ", targets)
+    });
+    console.log("Targets: ", targets);
     switch(this.state.generateAnnoType) { 
       case "highlighting":
-        alert("Creating highlight annotation for " + targets.length + " selected elements");
-        // CREATE HIGHLIGHT ANNOTATION on `targets`
+        console.log("Creating highlight annotation for " + targets.length + " selected elements");
+        client.submit_annotation({target: targets});
         break;
       case "describing": 
         const message = prompt("Enter description of the " + targets.length + " selected elements");
         // CREATE DESCRIBING ANNOTATION on `targets` (with a textual body containing `message`)
-        console.log("Got descriptive message: ", message)
+        client.submit_annotation({target: targets, textualBody: message});
         break;
       case "linking":
         const linkingUri = prompt("Enter a URI that the " + targets.length + " selected elements should link to");
         // CREATE DESCRIBING ANNOTATION on `targets` (with `linkingUri` as the body)
-        console.log("Got URI to link to: ", linkingUri)
+        client.submit_annotation({target: targets, body: [linkingUri]});
         break;
     }
   }
