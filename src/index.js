@@ -1,4 +1,4 @@
-import React, { Component }  from 'react';
+import React  from 'react';
 import ReactDOM from 'react-dom';
 import { Provider } from 'react-redux';
 import { createStore, applyMiddleware } from 'redux';
@@ -6,7 +6,7 @@ import thunk from 'redux-thunk';
 import ReduxPromise from 'redux-promise';
 import { Router, Route, browserHistory } from 'react-router'
 
-import { reducers } from 'meld-clients-core/src/reducers';
+import { reducers } from 'meld-clients-core/lib/reducers';
 import DigitalScoreEdition from './containers/digitalScoreEdition';
 import {APP_PATH} from "./containers/settings";
 

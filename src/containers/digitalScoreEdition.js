@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux' ;
 import { bindActionCreators } from 'redux';
-import { traverse, registerTraversal, setTraversalObjectives, checkTraversalObjectives, scoreNextPageStatic, scorePrevPageStatic, fetchScore } from 'meld-clients-core/src/actions/index';
+import { traverse, registerTraversal, setTraversalObjectives, checkTraversalObjectives, scoreNextPageStatic, scorePrevPageStatic, fetchScore } from 'meld-clients-core/lib/actions/index';
 import ScoreOptionsWrapper from './scoreOptionsWrapper';
 import SelectionPreferences from './selectionPreferences';
 import DragSelect from "dragselect/dist/DragSelect";
