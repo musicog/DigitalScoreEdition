@@ -28,12 +28,9 @@
     "react-redux": "^7.1.1",
     "react-router": "^3.2.4",
     "react-scripts": "^3.1.1",
-    "redux": "^4.0.4",
+    "redux": "^3.7.2",
     "redux-promise": "^0.6.0",
-    "redux-thunk": "^2.3.0",
-    "svg-inline-react": "~1.0.3",
-    "verovio-dev": "^2.0.0-46",
-    "verovio-select": "trompamusic/verovio-select"
+    "redux-thunk": "^2.3.0"
   },
   "browserslist": {
     "production": [
