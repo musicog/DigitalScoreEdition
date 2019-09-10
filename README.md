@@ -1,24 +1,37 @@
 # TROMPA Digital Score Edition (technical demo)
 
-## Purpose: 
+## Purpose
 * Demonstrate retrieval and rendering of (externally hosted) score via CE references
 * Demonstrate selection and annotation of score elements
 * Demonstrate layout changes to score rendering
 
-## To install:
-```
-git clone https://github.com/trompamusic/DigitalScoreEdition
+## To install
 
-cd DigitalScoreEdition
+In order to support the development of this app in tandem with `meld-clients-core`, you must set up both projects:
 
-npm install
+### meld-clients-core
 
-npm start
-```
+    git clone https://github.com/oerc-music/meld-clients-core.git
+    cd meld-clients-core
+    npm link
+    npm run build
+  
+### DigitalScoreEdition
+
+    git clone https://github.com/trompamusic/DigitalScoreEdition
+    cd DigitalScoreEdition
+    npm install
+    npm link meld-clients-core
+    
+    npm run start
+    
+Each time you make a change to `meld-clients-core`, run `npm run build` in that project to update the compiled files.
+The code watcher in `DigitalScoreEdition` will automatically notice these changes and recompile and reload the app.
 
 
-## To use:
-* Go to `http://localhost:8080` in your browser
+
+## To use
+* Go to `http://localhost:3000` in your browser
 * Enter the URI of a DigitalDocument in the CE into the textbox. Click the `Retrieve` button.
 * Once the score loads:
   * Click and drag to select elements. Ctrl+click and drag for multiple selections.

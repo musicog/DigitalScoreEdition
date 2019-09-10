@@ -1,7 +1,7 @@
 import React, { Component } from 'react';
 import { connect } from 'react-redux' ;
 import { bindActionCreators } from 'redux';
-import Score from 'meld-clients-core/src/containers/score';
+import Score from 'meld-clients-core/lib/containers/score';
 
 const defaultOptions = {
     scale: 45,
